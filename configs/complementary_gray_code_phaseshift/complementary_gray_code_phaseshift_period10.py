@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 17:48:08
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-20 16:53:04
+LastEditTime: 2022-10-20 19:55:40
 FilePath: /BasePipeline/configs/complementary_gray_code_phaseshift/complementary_gray_code_phaseshift_period10.py
 Description: 
 
@@ -32,7 +32,12 @@ method = dict(
         col_only=False, 
         cuda=False
     ),
-    calibrate_param_file = "/home/adlink/Projects/Camera3DPipeline/configs/calibration_result_ps_cp_3m_v2.xml",
+    rebuilder = dict(
+        type = 'GraycodeCrossRebuilder',
+        calibrate_param_file = "/Users/chenyue/Projects/BasePipeline/calibrate_files/calibration_result_ps_3m.xml", 
+        proj_shape = (1140, 912), 
+        downsample_ratio = 4,
+    ),
     pre_porcess = True,
     pre_process_cfg = dict(
         image_crop = True,

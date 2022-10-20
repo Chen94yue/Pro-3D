@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 16:57:32
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-20 16:52:23
+LastEditTime: 2022-10-20 19:56:51
 FilePath: /BasePipeline/oneshot.py
 Description: 
 
@@ -14,6 +14,7 @@ from pro3d.utils.logging import get_logger
 from pro3d.decoder import build_decoder
 from pro3d.camera import build_camera
 from pro3d.projector import build_projector
+from pro3d.rebuilder import build_rebuilder
 
 def parse_args():
     parser = argparse.ArgumentParser(
@@ -30,7 +31,8 @@ def main():
     decoder = build_decoder(cfg.method.decoder)
     # camera = build_camera(cfg.camera)
     projector = build_projector(cfg.projector)
-    print(projector)
+    rebuilder = build_rebuilder(cfg.method.rebuilder)
+    print(rebuilder)
 
 if __name__ == '__main__':
     main()

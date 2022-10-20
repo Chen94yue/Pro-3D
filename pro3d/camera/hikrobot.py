@@ -20,6 +20,7 @@ class HikrobotCamera(BaseCamera):
             log_file, 
             log_level,
             **kwargs):
+        super(HikrobotCamera, self).__init__()
         self.logger = get_logger(name='hikrobot_camera', log_file=log_file, log_level=log_level)
         self.cam_serial_dict = {}
         for camera_serial in camera_serial:

@@ -41,9 +41,9 @@ class BaseRunner(metaclass=ABCMeta):
             raise TypeError('"work_dir" must be a str or None')
 
         # get method name from the model class
-        self._method_name = self.method.__class__.__name__
+        self._decoder_name = self.decoder.__class__.__name__
         self._camera_name = self.camera.__class__.__name__
-        self._dlp_name = self.dlp.__class__.__name__
+        self._projector_name = self.projector.__class__.__name__
         self.mode: Optional[str] = None
         self._hooks: List[Hook] = []
         self._epoch = 0
@@ -52,9 +52,9 @@ class BaseRunner(metaclass=ABCMeta):
         self.log_buffer = LogBuffer()
 
     @property
-    def metohd_name(self) -> str:
+    def decoder_name(self) -> str:
         """str: Name of the method, usually the method class name."""
-        return self._method_name
+        return self._decoder_name
 
     @property
     def camera_name(self) -> str:
@@ -62,7 +62,7 @@ class BaseRunner(metaclass=ABCMeta):
         return self._camera_name
 
     @property
-    def dlp_name(self) -> str:
+    def projector_name(self) -> str:
         """str: Name of the dlp."""
         return self._dlp_name
 
