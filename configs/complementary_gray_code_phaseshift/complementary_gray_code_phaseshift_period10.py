@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 17:48:08
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-24 14:11:51
+LastEditTime: 2022-10-24 14:55:00
 FilePath: /BasePipeline/configs/complementary_gray_code_phaseshift/complementary_gray_code_phaseshift_period10.py
 Description: 
 
@@ -49,6 +49,7 @@ method = dict(
     ),
     post_process = True,
     post_process_cfg = dict(
+        type = "RangeFilter",
         min_distance = 1500, # mm
         max_distance = 4500,
     ),
