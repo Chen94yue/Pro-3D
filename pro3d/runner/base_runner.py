@@ -19,7 +19,7 @@ class BaseRunner(metaclass=ABCMeta):
                  camera,
                  projector,
                  decoder,
-                 work_dir: Optional[str] = None,
+                 rebuilder,
                  logger: Optional[logging.Logger] = None,
                  ) -> None:
         # check the type of `logger`
@@ -30,20 +30,14 @@ class BaseRunner(metaclass=ABCMeta):
         self.camera = camera
         self.projector = projector
         self.decoder = decoder
+        self.rebuilder = rebuilder
         self.logger = logger
-        # create work_dir
-        if isinstance(work_dir, str):
-            self.work_dir: Optional[str] = osp.abspath(work_dir)
-            mkdir_or_exist(self.work_dir)
-        elif work_dir is None:
-            self.work_dir = None
-        else:
-            raise TypeError('"work_dir" must be a str or None')
 
         # get method name from the model class
         self._decoder_name = self.decoder.__class__.__name__
         self._camera_name = self.camera.__class__.__name__
         self._projector_name = self.projector.__class__.__name__
+        self._rebuilder_name = self.projector.__class__.__name__
         self.mode: Optional[str] = None
         self._hooks: List[Hook] = []
         self._epoch = 0
@@ -63,8 +57,13 @@ class BaseRunner(metaclass=ABCMeta):
 
     @property
     def projector_name(self) -> str:
-        """str: Name of the dlp."""
-        return self._dlp_name
+        """str: Name of the projector."""
+        return self._projector_name
+
+    @property
+    def rebuilder_name(self) -> str:
+        """str: Name of the rebuilder."""
+        return self._rebuilder_name
 
     @property
     def hooks(self) -> List[Hook]:

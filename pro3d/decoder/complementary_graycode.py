@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-17 11:35:01
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-18 18:34:46
+LastEditTime: 2022-10-24 14:32:30
 FilePath: /BasePipeline/pro3d/decoder/complementary_graycode.py
 Description: 
 
@@ -58,10 +58,11 @@ class ComplementaryGraycode(nn.Module):
         self.bg_thr = bg_thr
         self.wavelength = wavelength
         self.dowansample_ratio = downsample_ratio
+        self.use_cuda = cuda
 
     def forward(self, images):
         # decode phaseshift images
-        images = images[:,::self.dowansample_ratio,::self.dowansample_ratio]
+        # images = images[:,::self.dowansample_ratio,::self.dowansample_ratio]
         ps_images = images[:self.num_of_ps_pattern_imgs]
         col_bg = self.phaseshift_decoder.get_background(ps_images[:self.num_of_ps_imgs])
         if not self.col_only:

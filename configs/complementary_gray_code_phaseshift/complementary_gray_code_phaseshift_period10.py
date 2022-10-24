@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 17:48:08
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-20 19:55:40
+LastEditTime: 2022-10-24 14:11:51
 FilePath: /BasePipeline/configs/complementary_gray_code_phaseshift/complementary_gray_code_phaseshift_period10.py
 Description: 
 
@@ -40,20 +40,22 @@ method = dict(
     ),
     pre_porcess = True,
     pre_process_cfg = dict(
-        image_crop = True,
-        crop = dict(
-            crop_x = 0, 
-            crop_y = 230,
-            crop_w = 2400,
-            crop_h = 1730,
-            )
+        type = 'ImageCrop',
+        crop_x = 0, 
+        crop_y = 230,
+        crop_w = 2400,
+        crop_h = 1730,
+        downsample_ratio = 4,
     ),
     post_process = True,
-    process = dict(
+    post_process_cfg = dict(
         min_distance = 1500, # mm
         max_distance = 4500,
     ),
     get_depth = True,
     get_color = False,
+    runner = dict(
+        type = 'SingleCameraRunner',
+    ),
 )
 
