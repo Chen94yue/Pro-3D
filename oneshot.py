@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 16:57:32
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-24 11:27:45
+LastEditTime: 2022-10-24 15:42:34
 FilePath: /BasePipeline/oneshot.py
 Description: 
 
@@ -17,6 +17,7 @@ from pro3d.projector import build_projector
 from pro3d.rebuilder import build_rebuilder
 from pro3d.runner import build_runner
 
+
 def parse_args():
     parser = argparse.ArgumentParser(
         description=' Get one shot')
@@ -24,10 +25,12 @@ def parse_args():
     args = parser.parse_args()
     return args
 
+
 def main():
     args = parse_args()
     cfg = Config.fromfile(args.config)
-    logger = get_logger(name='oneshot', log_file=cfg.log_file, log_level=cfg.log_level)
+    logger = get_logger(name='oneshot', log_file=cfg.log_file,
+                        log_level=cfg.log_level)
     logger.info("Get ")
     decoder = build_decoder(cfg.method.decoder)
     camera = build_camera(cfg.camera)
@@ -36,19 +39,19 @@ def main():
     runner = build_runner(
         cfg.method.runner,
         default_args=dict(
-            camera = camera,
-            projector = projector,
-            decoder = decoder,
-            rebuilder = rebuilder,
-            logger = logger,
+            camera=camera,
+            projector=projector,
+            decoder=decoder,
+            rebuilder=rebuilder,
+            logger=logger,
         ))
     if cfg.method.pre_process:
         pre_process_config = cfg.method.pre_process_cfg
     if cfg.method.post_process:
-        post_process_config = cfg.method.post_process_cfg 
+        post_process_config = cfg.method.post_process_cfg
     runner.register_shot_hooks(
-        pre_process_config = pre_process_config,
-        post_process_config = post_process_config,
+        pre_process_config=pre_process_config,
+        post_process_config=post_process_config,
     )
 
     while True:

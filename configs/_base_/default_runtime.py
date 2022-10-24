@@ -11,7 +11,7 @@ Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved.
 network_device_name = 'eth0'
 camera_service_port = 9001
 grpc = dict(
-    max_massage_length = 100*1024*1024
+    max_massage_length=100*1024*1024
 )
 log_level = 'INFO'
 log_file = 'logs/default.log'

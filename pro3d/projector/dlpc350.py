@@ -3,12 +3,13 @@ from email.mime import image
 
 import usb.core
 import usb.util
-from  usb.core import USBError
+from usb.core import USBError
 import time
 from math import floor
 from contextlib import contextmanager
 import sys
 from .builder import PROJECTOR
+
 
 def conv_len(a, l):
     """
@@ -21,6 +22,7 @@ def conv_len(a, l):
     padding = l - len(b)
     b = '0' * padding + b
     return b
+
 
 def bits_to_bytes(a, reverse=True):
     """
@@ -58,7 +60,8 @@ def connect_usb():
                 try:
                     device.detach_kernel_driver(intf.bInterfaceNumber)
                 except usb.core.USBError as e:
-                    sys.exit("Could not detatch kernel driver from interface({0}): {1}".format(intf.bInterfaceNumber, str(e)))
+                    sys.exit("Could not detatch kernel driver from interface({0}): {1}".format(
+                        intf.bInterfaceNumber, str(e)))
     device.set_configuration()
     lcr = dlpc350(device)
     yield lcr
@@ -73,6 +76,7 @@ class dlpc350(object):
     Can connect to different DLPCs by changing product ID. Check IDs in
     device manager.
     """
+
     def __init__(self, device):
         """
         connects device
@@ -207,7 +211,7 @@ class dlpc350(object):
         modes = ['video', '', '', 'flash']
         if mode in modes:
             mode = modes.index(mode)
-        print("pattern input source select %d."%mode)
+        print("pattern input source select %d." % mode)
         self.command('w', 0x00, 0x1a, 0x22, [mode])
 
     def set_pattern_trigger_mode(self, mode='vsync'):
@@ -220,7 +224,7 @@ class dlpc350(object):
         if mode in modes:
             mode = modes.index(mode)
 
-        print("Trigger mode %d"%mode)
+        print("Trigger mode %d" % mode)
         self.command('w', 0x00, 0x1a, 0x23, [mode])
 
     def pattern_display(self, action='start'):
@@ -257,7 +261,7 @@ class dlpc350(object):
 
         payload = frame_period + exposure_period
         payload = bits_to_bytes(payload)
-        print("set exposure %s"%str(payload))
+        print("set exposure %s" % str(payload))
         self.command('w', 0x00, 0x1a, 0x29, payload)
 
     def set_pattern_config(self,
@@ -284,19 +288,19 @@ class dlpc350(object):
 
         payload = num_images + num_pats_for_trig_out2 + do_repeat + num_lut_entries
         payload = bits_to_bytes(payload)
-        print('pattern config %s.'%str(payload))
+        print('pattern config %s.' % str(payload))
 
         self.command('w', 0x00, 0x1a, 0x31, payload)
 
     def set_variable_pattern_config(self, num_lut_entries, num_pats_for_trig_out2, num_images, do_repeat=True):
         num_lut_entries = '00000' + conv_len(num_lut_entries - 1, 11)
-        num_pats_for_trig_out2 = '00000' + conv_len(num_pats_for_trig_out2 - 1, 11)
+        num_pats_for_trig_out2 = '00000' + \
+            conv_len(num_pats_for_trig_out2 - 1, 11)
         num_images = conv_len(num_images - 1, 8)
         do_repeat = '0000000' + str(int(do_repeat))
         payload = do_repeat + num_images + num_pats_for_trig_out2 + num_lut_entries
         payload = bits_to_bytes(payload)
         self.command('w', 0x00, 0x1a, 0x40, payload)
-
 
     def mailbox_set_address(self, address=0):
         """
@@ -341,19 +345,19 @@ class dlpc350(object):
             current = 0
         if current > 255:
             current = 255
-        self.command('w', 0x00, 0x0b, 0x01, [current,current,current])
-    
+        self.command('w', 0x00, 0x0b, 0x01, [current, current, current])
+
     def set_one_pattern_offset_index(self, index):
         payload = '00000' + conv_len(index, 11)
         payload = bits_to_bytes(payload)
         self.command('w', 0x00, 0x1a, 0x3f, payload)
 
-    def set_one_pattern(self, 
-            trigger_type, pattern_index, 
-            bit_depth, led_color, 
-            do_invert_pat, do_insert_black, swap, do_trig_out_prev,
-            exposure_period, frame_period
-            ):
+    def set_one_pattern(self,
+                        trigger_type, pattern_index,
+                        bit_depth, led_color,
+                        do_invert_pat, do_insert_black, swap, do_trig_out_prev,
+                        exposure_period, frame_period
+                        ):
         trigger_t = conv_len(trigger_type, 2)
         pattern_i = conv_len(pattern_index, 6)
         byte_0 = pattern_i + trigger_t
@@ -436,7 +440,7 @@ class dlpc350(object):
         payload = ''
         for i in range(pat_num):
             print(i)
-            swap = ( i % single_image_pattern == 0)
+            swap = (i % single_image_pattern == 0)
             pat_index = i % single_image_pattern
 
             # byte 0
@@ -473,15 +477,15 @@ class Ti4500:
         self.bit_length = bit_length
 
     def pattern_mode(
-                    self,
-                    num_pats=50,
-                    num_image=6,
-                    # trigger_type='intext',
-                    trigger_source=0,
-                    period=10000,
-                    bit_depth=1,
-                    led_color=4,
-                    ):
+        self,
+        num_pats=50,
+        num_image=6,
+        # trigger_type='intext',
+        trigger_source=0,
+        period=10000,
+        bit_depth=1,
+        led_color=4,
+    ):
         # 设置投影序列
         # 默认从第一张图的第一个bit开始计算，若采用复杂设置方式，请使用variable_pattern_mode
         # 参数说明：
@@ -506,18 +510,18 @@ class Ti4500:
             lcr.set_display_mode('pattern')
             lcr.set_pattern_input_source('flash')
             lcr.set_pattern_config(num_lut_entries=num_pats,
-                                do_repeat=True,
-                                num_pats_for_trig_out2=1,
-                                num_images=num_image)
+                                   do_repeat=True,
+                                   num_pats_for_trig_out2=1,
+                                   num_images=num_image)
             lcr.set_exposure_frame_period(period, period)
             lcr.set_pattern_trigger_mode('intext')
             lcr.set_mailbox(2)
             lcr.mailbox_set_address(0)
             lcr.send_pattern_lut(trig_type=trigger_source,
-                                pat_num=num_pats,
-                                bit_depth=bit_depth,
-                                led_select=led_color,
-                                )
+                                 pat_num=num_pats,
+                                 bit_depth=bit_depth,
+                                 led_select=led_color,
+                                 )
             lcr.set_mailbox(0)
             lcr.set_mailbox(1)
             lcr.mailbox_set_address(0)
@@ -548,7 +552,8 @@ class Ti4500:
         image_indexs = []
         for index, pattern_info in enumerate(sequence):
             if index > 0:
-                swap = (sequence[index]['image_id'] != sequence[index-1]['image_id'])
+                swap = (sequence[index]['image_id'] !=
+                        sequence[index-1]['image_id'])
             else:
                 swap = True
             if swap:
@@ -559,31 +564,33 @@ class Ti4500:
             lcr.set_display_mode('pattern')
             lcr.set_pattern_input_source('flash')
             lcr.set_variable_pattern_config(
-                num_lut_entries=len(sequence), 
-                num_pats_for_trig_out2=1, 
-                num_images=len(image_indexs), 
+                num_lut_entries=len(sequence),
+                num_pats_for_trig_out2=1,
+                num_images=len(image_indexs),
                 do_repeat=True
             )
             lcr.set_pattern_trigger_mode('virintext')
-            
+
             lcr.set_mailbox(3)
             for index, pattern_info in enumerate(sequence):
                 lcr.set_one_pattern_offset_index(index)
                 if index > 0:
-                    swap = (sequence[index]['image_id'] != sequence[index-1]['image_id'])
+                    swap = (sequence[index]['image_id'] !=
+                            sequence[index-1]['image_id'])
                 else:
                     swap = True
-                assert 24 / pattern_info['bit_depth'] > pattern_info['pattern_index']
+                assert 24 / \
+                    pattern_info['bit_depth'] > pattern_info['pattern_index']
                 lcr.set_one_pattern(
                     pattern_info['trigger_type'],
-                    pattern_info['pattern_index'], 
+                    pattern_info['pattern_index'],
                     pattern_info['bit_depth'],
                     pattern_info['led_color'],
                     pattern_info['do_invert_pat'],
                     pattern_info['do_insert_black'],
                     swap,
                     pattern_info['do_trig_out_prevc'],
-                    pattern_info['exposure_period'], 
+                    pattern_info['exposure_period'],
                     pattern_info['frame_period']
                 )
             lcr.set_mailbox(0)
@@ -603,7 +610,6 @@ class Ti4500:
             lcr.pattern_display('stop')
             lcr.set_display_mode('video')
 
-
     def power_down(self):
         """
         Puts LCR4500 into standby mode.
@@ -611,7 +617,6 @@ class Ti4500:
         with connect_usb() as lcr:
             lcr.pattern_display('stop')
             lcr.set_power_mode(do_standby=True)
-
 
     def power_up(self):
         """
@@ -638,7 +643,7 @@ class Ti4500:
 
     def dlp_stop(self):
         with connect_usb() as lcr:
-            lcr.pattern_display('stop') 
+            lcr.pattern_display('stop')
 
     def set_exposure_time(self, exposure_time, period_time):
         with connect_usb() as lcr:

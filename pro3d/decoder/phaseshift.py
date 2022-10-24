@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-17 14:37:51
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-18 18:34:51
+LastEditTime: 2022-10-24 15:40:29
 FilePath: /BasePipeline/pro3d/decoder/phaseshift.py
 Description: 
 
@@ -13,6 +13,7 @@ import torch
 import torch.nn as nn
 import math
 import numpy as np
+
 
 @DECODER.register_module()
 class Phaseshift(nn.Module):
@@ -41,4 +42,3 @@ class Phaseshift(nn.Module):
             val2 += (pimgs[i] * torch.cos(2*torch.pi*i/self.ps_step))
 
         return torch.atan2(val1, val2)
-

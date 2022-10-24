@@ -16,22 +16,27 @@ from .PixelType_header import *
 MvCamCtrldll = None
 
 # 用于回调函数传入相机实例
+
+
 class _MV_PY_OBJECT_(Structure):
     pass
+
+
 _MV_PY_OBJECT_._fields_ = [
     ('PyObject', py_object),
 ]
 MV_PY_OBJECT = _MV_PY_OBJECT_
+
 
 class MvCamera():
 
     def __init__(self):
         self._handle = c_void_p()  # 记录当前连接设备的句柄
         self.handle = pointer(self._handle)  # 创建句柄指针
-        
+
     @staticmethod
     def set_dill_path(dill_path):
-        global MvCamCtrldll 
+        global MvCamCtrldll
         MvCamCtrldll = ctypes.cdll.LoadLibrary(dill_path)
 
     @staticmethod
@@ -65,7 +70,8 @@ class MvCamera():
         MvCamCtrldll.MV_CC_DestroyHandle.restype = c_uint
         MvCamCtrldll.MV_CC_DestroyHandle(self.handle)
 
-        MvCamCtrldll.MV_CC_CreateHandleWithoutLog.argtype = (c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_CreateHandleWithoutLog.argtype = (
+            c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_CreateHandleWithoutLog.restype = c_uint
         # C原型:int MV_CC_CreateHandleWithoutLog(void ** handle, MV_CC_DEVICE_INFO* pstDevInfo)
         return MvCamCtrldll.MV_CC_CreateHandleWithoutLog(byref(self.handle), byref(stDevInfo))
@@ -91,7 +97,8 @@ class MvCamera():
 
     # 注册取流回调
     def MV_CC_RegisterImageCallBackEx(self, CallBackFun, pUser):
-        MvCamCtrldll.MV_CC_RegisterImageCallBackEx.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_RegisterImageCallBackEx.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_RegisterImageCallBackEx.restype = c_uint
         # C原型:int MV_CC_RegisterImageCallBackEx(void* handle, void(* cbOutput)(unsigned char * pData, MV_FRAME_OUT_INFO_EX* pFrameInfo, void* pUser),void* pUser);
         return MvCamCtrldll.MV_CC_RegisterImageCallBackEx(self.handle, CallBackFun, pUser)
@@ -110,7 +117,8 @@ class MvCamera():
 
     # 主动方式取流
     def MV_CC_GetOneFrameTimeout(self, pData, nDataSize, stFrameInfo, nMsec=1000):
-        MvCamCtrldll.MV_CC_GetOneFrameTimeout.argtype = (c_void_p, c_void_p, c_uint, c_void_p, c_uint)
+        MvCamCtrldll.MV_CC_GetOneFrameTimeout.argtype = (
+            c_void_p, c_void_p, c_uint, c_void_p, c_uint)
         MvCamCtrldll.MV_CC_GetOneFrameTimeout.restype = c_uint
         # C原型:int MV_CC_GetOneFrameTimeout(void* handle, unsigned char * pData , unsigned int nDataSize, MV_FRAME_OUT_INFO_EX* pFrameInfo, unsigned int nMsec)
         return MvCamCtrldll.MV_CC_GetOneFrameTimeout(self.handle, pData, nDataSize, byref(stFrameInfo), nMsec)
@@ -128,7 +136,7 @@ class MvCamera():
         MvCamCtrldll.MV_CC_GetIntValue.restype = c_uint
         # C原型:int MV_CC_GetIntValue(void* handle,char* strKey,MVCC_INTVALUE *pIntValue)
         return MvCamCtrldll.MV_CC_GetIntValue(self.handle, strKey.encode('ascii'), byref(stIntValue))
-    
+
     # 设置Integer型属性值
     def MV_CC_SetIntValue(self, strKey, nValue):
         MvCamCtrldll.MV_CC_SetIntValue.argtype = (c_void_p, c_void_p, c_uint32)
@@ -138,42 +146,48 @@ class MvCamera():
 
     # 获取Enum型属性值
     def MV_CC_GetEnumValue(self, strKey, stEnumValue):
-        MvCamCtrldll.MV_CC_GetEnumValue.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_GetEnumValue.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_GetEnumValue.restype = c_uint
         # C原型:int MV_CC_GetEnumValue(void* handle,char* strKey,MVCC_ENUMVALUE *pEnumValue)
         return MvCamCtrldll.MV_CC_GetEnumValue(self.handle, strKey.encode('ascii'), byref(stEnumValue))
 
     # 设置Enum型属性值
     def MV_CC_SetEnumValue(self, strKey, nValue):
-        MvCamCtrldll.MV_CC_SetEnumValue.argtype = (c_void_p, c_void_p, c_uint32)
+        MvCamCtrldll.MV_CC_SetEnumValue.argtype = (
+            c_void_p, c_void_p, c_uint32)
         MvCamCtrldll.MV_CC_SetEnumValue.restype = c_uint
         # C原型:int MV_CC_SetEnumValue(void* handle,char* strKey,unsigned int nValue)
         return MvCamCtrldll.MV_CC_SetEnumValue(self.handle, strKey.encode('ascii'), c_uint32(nValue))
 
     # 设置Enum型属性值
     def MV_CC_SetEnumValueByString(self, strKey, sValue):
-        MvCamCtrldll.MV_CC_SetEnumValueByString.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_SetEnumValueByString.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_SetEnumValueByString.restype = c_uint
         # C原型:int MV_CC_SetEnumValueByString(void* handle,char* strKey,char* sValue)
         return MvCamCtrldll.MV_CC_SetEnumValueByString(self.handle, strKey.encode('ascii'), sValue.encode('ascii'))
 
     # 获取Float型属性值
     def MV_CC_GetFloatValue(self, strKey, stFloatValue):
-        MvCamCtrldll.MV_CC_GetFloatValue.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_GetFloatValue.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_GetFloatValue.restype = c_uint
         # C原型:int MV_CC_GetFloatValue(void* handle,char* strKey,MVCC_FLOATVALUE *pFloatValue)
         return MvCamCtrldll.MV_CC_GetFloatValue(self.handle, strKey.encode('ascii'), byref(stFloatValue))
 
     # 设置Float型属性值
     def MV_CC_SetFloatValue(self, strKey, fValue):
-        MvCamCtrldll.MV_CC_SetFloatValue.argtype = (c_void_p, c_void_p, c_float)
+        MvCamCtrldll.MV_CC_SetFloatValue.argtype = (
+            c_void_p, c_void_p, c_float)
         MvCamCtrldll.MV_CC_SetFloatValue.restype = c_uint
         # C原型:int MV_CC_SetFloatValue(void* handle,char* strKey,float fValue)
         return MvCamCtrldll.MV_CC_SetFloatValue(self.handle, strKey.encode('ascii'), c_float(fValue))
 
     # 获取Boolean型属性值
     def MV_CC_GetBoolValue(self, strKey, BoolValue):
-        MvCamCtrldll.MV_CC_GetBoolValue.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_GetBoolValue.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_GetBoolValue.restype = c_uint
         # C原型:int MV_CC_GetBoolValue(void* handle,char* strKey,bool *pBoolValue)
         return MvCamCtrldll.MV_CC_GetBoolValue(self.handle, strKey.encode('ascii'), byref(BoolValue))
@@ -187,18 +201,20 @@ class MvCamera():
 
     # 获取String型属性值
     def MV_CC_GetStringValue(self, strKey, StringValue):
-        MvCamCtrldll.MV_CC_GetStringValue.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_GetStringValue.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_GetStringValue.restype = c_uint
         # C原型:int MV_CC_GetStringValue(void* handle,char* strKey,MVCC_STRINGVALUE *pStringValue)
         return MvCamCtrldll.MV_CC_GetStringValue(self.handle, strKey.encode('ascii'), byref(StringValue))
-    
+
     # 设置String型属性值
     def MV_CC_SetStringValue(self, strKey, sValue):
-        MvCamCtrldll.MV_CC_SetStringValue.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_SetStringValue.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_SetStringValue.restype = c_uint
         # C原型:int MV_CC_SetStringValue(void* handle,char* strKey,char * sValue)
         return MvCamCtrldll.MV_CC_SetStringValue(self.handle, strKey.encode('ascii'), sValue.encode('ascii'))
-    
+
     # 设置Command型属性值
     def MV_CC_SetCommandValue(self, strKey):
         MvCamCtrldll.MV_CC_SetCommandValue.argtype = (c_void_p, c_void_p)
@@ -208,25 +224,28 @@ class MvCamera():
 
     # 注册异常消息回调
     def MV_CC_RegisterExceptionCallBack(self, ExceptionCallBackFun, pUser):
-        MvCamCtrldll.MV_CC_RegisterExceptionCallBack.argtype = (c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_RegisterExceptionCallBack.argtype = (
+            c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_RegisterExceptionCallBack.restype = c_uint
         # C原型:int MV_CC_RegisterExceptionCallBack(void* handle, void(* cbException)(unsigned int nMsgType, void* pUser),void* pUser)
         return MvCamCtrldll.MV_CC_RegisterExceptionCallBack(self.handle, ExceptionCallBackFun, pUser)
 
     # 注册事件回调
     def MV_CC_RegisterEventCallBackEx(self, pEventName, EventCallBackFun, pUser):
-        MvCamCtrldll.MV_CC_RegisterEventCallBackEx.argtype = (c_void_p, c_void_p, c_void_p, c_void_p)
+        MvCamCtrldll.MV_CC_RegisterEventCallBackEx.argtype = (
+            c_void_p, c_void_p, c_void_p, c_void_p)
         MvCamCtrldll.MV_CC_RegisterEventCallBackEx.restype = c_uint
         # C原型:int MV_CC_RegisterEventCallBackEx(void* handle, char* pEventName,void(* cbEvent)(MV_EVENT_OUT_INFO * pEventInfo, void* pUser),void* pUser)
         return MvCamCtrldll.MV_CC_RegisterEventCallBackEx(self.handle, pEventName.encode('ascii'), EventCallBackFun, pUser)
 
     # 强制IP
     def MV_GIGE_ForceIpEx(self, nIP, nSubNetMask, nDefaultGateWay):
-        MvCamCtrldll.MV_GIGE_ForceIpEx.argtype = (c_void_p, c_uint, c_uint, c_uint)
+        MvCamCtrldll.MV_GIGE_ForceIpEx.argtype = (
+            c_void_p, c_uint, c_uint, c_uint)
         MvCamCtrldll.MV_GIGE_ForceIpEx.restype = c_uint
         # C原型:int MV_GIGE_ForceIpEx(void* handle, unsigned int nIP, unsigned int nSubNetMask, unsigned int nDefaultGateWay)
         return MvCamCtrldll.MV_GIGE_ForceIpEx(self.handle, c_uint(nIP), c_uint(nSubNetMask), c_uint(nDefaultGateWay))
-    
+
     # 配置IP方式
     def MV_GIGE_SetIpConfig(self, nType):
         MvCamCtrldll.MV_GIGE_SetIpConfig.argtype = (c_void_p, c_uint)
@@ -261,7 +280,7 @@ class MvCamera():
         MvCamCtrldll.MV_CC_FeatureSave.restype = c_uint
         # C原型:int MV_CC_FeatureSave(void* handle, char* pFileName)
         return MvCamCtrldll.MV_CC_FeatureSave(self.handle, pFileName.encode('ascii'))
-    
+
     # 加载属性节点
     def MV_CC_FeatureLoad(self, pFileName):
         MvCamCtrldll.MV_CC_FeatureLoad.argtype = (c_void_p, c_void_p)
@@ -296,5 +315,3 @@ class MvCamera():
         MvCamCtrldll.MV_CC_GetOptimalPacketSize.restype = c_uint
         # C原型:int __stdcall MV_CC_GetOptimalPacketSize(void* handle);
         return MvCamCtrldll.MV_CC_GetOptimalPacketSize(self.handle)
-
-    

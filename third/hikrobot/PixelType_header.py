@@ -3,7 +3,6 @@
 from ctypes import *
 
 
-
 PixelType_Gvsp_YUV411_Packed = 34340894
 PixelType_Gvsp_Mono1p = 16842807
 PixelType_Gvsp_YCBCR422_8 = 34603067
@@ -109,7 +108,7 @@ intmax_t = c_long
 uintmax_t = c_ulong
 
 # values for enumeration 'MvGvspPixelType'
-MvGvspPixelType = c_int # enum
+MvGvspPixelType = c_int  # enum
 __all__ = ['PixelType_Gvsp_BayerRG8', 'int_fast32_t',
            'PixelType_Gvsp_YCBCR422_8',
            'PixelType_Gvsp_COORD3D_DEPTH_PLUS_MASK', 'uint8_t',

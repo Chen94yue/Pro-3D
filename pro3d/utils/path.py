@@ -2,8 +2,8 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-10 19:53:39
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-10 19:53:51
-FilePath: /BasePipeline/basePipeline/utils/path.py
+LastEditTime: 2022-10-24 15:41:53
+FilePath: /BasePipeline/pro3d/utils/path.py
 Description: 
 
 Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved. 

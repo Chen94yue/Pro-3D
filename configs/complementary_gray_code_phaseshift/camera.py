@@ -10,16 +10,15 @@ Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved.
 '''
 
 camera = dict(
-    type = 'HikrobotCamera',
-    dill_path = "/home/adlink/Projects/Camera3DPipeline/third/MvImport",
-    camera_serial = ['K18111107'],
-    camera_device_id = ['2bdf:0001'],
+    type='HikrobotCamera',
+    dill_path="/home/adlink/Projects/Camera3DPipeline/third/MvImport",
+    camera_serial=['K18111107'],
+    camera_device_id=['2bdf:0001'],
     # patterns_number = 22,   # 如果是列表，将在拍摄过程中进行参数的切换
-    exposure_time = 35000,
-    gain = 1,
-    gamma = 1,
-    rgb = False,
-    log_file = 'logs/camera.log', 
-    log_level = 'INFO'
-    )
-
+    exposure_time=35000,
+    gain=1,
+    gamma=1,
+    rgb=False,
+    log_file='logs/camera.log',
+    log_level='INFO'
+)

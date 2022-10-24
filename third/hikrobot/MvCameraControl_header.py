@@ -171,8 +171,12 @@ uintptr_t = c_ulong
 intmax_t = c_long
 uintmax_t = c_ulong
 # CameraParams.h 21
+
+
 class _MV_GIGE_DEVICE_INFO_(Structure):
     pass
+
+
 _MV_GIGE_DEVICE_INFO_._fields_ = [
     # CameraParams.h 21
     ('nIpCfgOption', c_uint),
@@ -191,8 +195,12 @@ _MV_GIGE_DEVICE_INFO_._fields_ = [
 ]
 MV_GIGE_DEVICE_INFO = _MV_GIGE_DEVICE_INFO_
 # CameraParams.h 42
+
+
 class _MV_USB3_DEVICE_INFO_(Structure):
     pass
+
+
 _MV_USB3_DEVICE_INFO_._fields_ = [
     # CameraParams.h 42
     ('CrtlInEndPoint', c_ubyte),
@@ -215,11 +223,17 @@ _MV_USB3_DEVICE_INFO_._fields_ = [
 ]
 MV_USB3_DEVICE_INFO = _MV_USB3_DEVICE_INFO_
 # CameraParams.h 64
+
+
 class _MV_CC_DEVICE_INFO_(Structure):
     pass
 # CameraParams.h 76
+
+
 class N19_MV_CC_DEVICE_INFO_3DOT_0E(Union):
     pass
+
+
 N19_MV_CC_DEVICE_INFO_3DOT_0E._fields_ = [
     # CameraParams.h 76
     ('stGigEInfo', MV_GIGE_DEVICE_INFO),
@@ -237,8 +251,12 @@ _MV_CC_DEVICE_INFO_._fields_ = [
 ]
 MV_CC_DEVICE_INFO = _MV_CC_DEVICE_INFO_
 # CameraParams.h 86
+
+
 class _MV_NETTRANS_INFO_(Structure):
     pass
+
+
 _MV_NETTRANS_INFO_._fields_ = [
     # CameraParams.h 86
     ('nReviceDataSize', int64_t),
@@ -247,8 +265,12 @@ _MV_NETTRANS_INFO_._fields_ = [
 ]
 MV_NETTRANS_INFO = _MV_NETTRANS_INFO_
 # CameraParams.h 101
+
+
 class _MV_CC_DEVICE_INFO_LIST_(Structure):
     pass
+
+
 _MV_CC_DEVICE_INFO_LIST_._fields_ = [
     # CameraParams.h 101
     ('nDeviceNum', c_uint),
@@ -256,11 +278,14 @@ _MV_CC_DEVICE_INFO_LIST_._fields_ = [
 ]
 MV_CC_DEVICE_INFO_LIST = _MV_CC_DEVICE_INFO_LIST_
 # CameraParams.h 110
+
+
 class _MV_FRAME_OUT_INFO_(Structure):
     pass
 
+
 # values for enumeration 'MvGvspPixelType'
-MvGvspPixelType = int64_t # enum
+MvGvspPixelType = int64_t  # enum
 _MV_FRAME_OUT_INFO_._fields_ = [
     # CameraParams.h 110
     ('nWidth', c_ushort),
@@ -277,8 +302,12 @@ _MV_FRAME_OUT_INFO_._fields_ = [
 ]
 MV_FRAME_OUT_INFO = _MV_FRAME_OUT_INFO_
 # CameraParams.h 129
+
+
 class _MV_FRAME_OUT_INFO_EX_(Structure):
     pass
+
+
 _MV_FRAME_OUT_INFO_EX_._fields_ = [
     # CameraParams.h 129
     ('nWidth', c_ushort),
@@ -312,8 +341,12 @@ _MV_FRAME_OUT_INFO_EX_._fields_ = [
 ]
 MV_FRAME_OUT_INFO_EX = _MV_FRAME_OUT_INFO_EX_
 # CameraParams.h 176
+
+
 class _MV_DISPLAY_FRAME_INFO_(Structure):
     pass
+
+
 _MV_DISPLAY_FRAME_INFO_._fields_ = [
     # CameraParams.h 176
     ('hWnd', c_void_p),
@@ -327,10 +360,14 @@ _MV_DISPLAY_FRAME_INFO_._fields_ = [
 MV_DISPLAY_FRAME_INFO = _MV_DISPLAY_FRAME_INFO_
 
 # values for enumeration 'MV_SAVE_IAMGE_TYPE'
-MV_SAVE_IAMGE_TYPE = c_int # enum
+MV_SAVE_IAMGE_TYPE = c_int  # enum
 # CameraParams.h 198
+
+
 class _MV_SAVE_IMAGE_PARAM_T_(Structure):
     pass
+
+
 _MV_SAVE_IMAGE_PARAM_T_._fields_ = [
     # CameraParams.h 198
     ('pData', POINTER(c_ubyte)),
@@ -345,8 +382,12 @@ _MV_SAVE_IMAGE_PARAM_T_._fields_ = [
 ]
 MV_SAVE_IMAGE_PARAM = _MV_SAVE_IMAGE_PARAM_T_
 # CameraParams.h 214
+
+
 class _MV_SAVE_IMAGE_PARAM_T_EX_(Structure):
     pass
+
+
 _MV_SAVE_IMAGE_PARAM_T_EX_._fields_ = [
     # CameraParams.h 214
     ('pData', POINTER(c_ubyte)),
@@ -364,8 +405,12 @@ _MV_SAVE_IMAGE_PARAM_T_EX_._fields_ = [
 ]
 MV_SAVE_IMAGE_PARAM_EX = _MV_SAVE_IMAGE_PARAM_T_EX_
 # CameraParams.h 236
+
+
 class _MV_PIXEL_CONVERT_PARAM_T_(Structure):
     pass
+
+
 _MV_PIXEL_CONVERT_PARAM_T_._fields_ = [
     # CameraParams.h 236
     ('nWidth', c_ushort),
@@ -382,43 +427,47 @@ _MV_PIXEL_CONVERT_PARAM_T_._fields_ = [
 MV_CC_PIXEL_CONVERT_PARAM = _MV_PIXEL_CONVERT_PARAM_T_
 
 # values for enumeration '_MV_CAM_ACQUISITION_MODE_'
-_MV_CAM_ACQUISITION_MODE_ = c_int # enum
+_MV_CAM_ACQUISITION_MODE_ = c_int  # enum
 MV_CAM_ACQUISITION_MODE = _MV_CAM_ACQUISITION_MODE_
 
 # values for enumeration '_MV_CAM_GAIN_MODE_'
-_MV_CAM_GAIN_MODE_ = c_int # enum
+_MV_CAM_GAIN_MODE_ = c_int  # enum
 MV_CAM_GAIN_MODE = _MV_CAM_GAIN_MODE_
 
 # values for enumeration '_MV_CAM_EXPOSURE_MODE_'
-_MV_CAM_EXPOSURE_MODE_ = c_int # enum
+_MV_CAM_EXPOSURE_MODE_ = c_int  # enum
 MV_CAM_EXPOSURE_MODE = _MV_CAM_EXPOSURE_MODE_
 
 # values for enumeration '_MV_CAM_EXPOSURE_AUTO_MODE_'
-_MV_CAM_EXPOSURE_AUTO_MODE_ = c_int # enum
+_MV_CAM_EXPOSURE_AUTO_MODE_ = c_int  # enum
 MV_CAM_EXPOSURE_AUTO_MODE = _MV_CAM_EXPOSURE_AUTO_MODE_
 
 # values for enumeration '_MV_CAM_TRIGGER_MODE_'
-_MV_CAM_TRIGGER_MODE_ = c_int # enum
+_MV_CAM_TRIGGER_MODE_ = c_int  # enum
 MV_CAM_TRIGGER_MODE = _MV_CAM_TRIGGER_MODE_
 
 # values for enumeration '_MV_CAM_GAMMA_SELECTOR_'
-_MV_CAM_GAMMA_SELECTOR_ = c_int # enum
+_MV_CAM_GAMMA_SELECTOR_ = c_int  # enum
 MV_CAM_GAMMA_SELECTOR = _MV_CAM_GAMMA_SELECTOR_
 
 # values for enumeration '_MV_CAM_BALANCEWHITE_AUTO_'
-_MV_CAM_BALANCEWHITE_AUTO_ = c_int # enum
+_MV_CAM_BALANCEWHITE_AUTO_ = c_int  # enum
 MV_CAM_BALANCEWHITE_AUTO = _MV_CAM_BALANCEWHITE_AUTO_
 
 # values for enumeration '_MV_CAM_TRIGGER_SOURCE_'
-_MV_CAM_TRIGGER_SOURCE_ = c_int # enum
+_MV_CAM_TRIGGER_SOURCE_ = c_int  # enum
 MV_CAM_TRIGGER_SOURCE = _MV_CAM_TRIGGER_SOURCE_
 
 # values for enumeration '_MV_GIGE_TRANSMISSION_TYPE_'
-_MV_GIGE_TRANSMISSION_TYPE_ = c_int # enum
+_MV_GIGE_TRANSMISSION_TYPE_ = c_int  # enum
 MV_GIGE_TRANSMISSION_TYPE = _MV_GIGE_TRANSMISSION_TYPE_
 # CameraParams.h 377
+
+
 class _MV_ALL_MATCH_INFO_(Structure):
     pass
+
+
 _MV_ALL_MATCH_INFO_._fields_ = [
     # CameraParams.h 377
     ('nType', c_uint),
@@ -427,8 +476,12 @@ _MV_ALL_MATCH_INFO_._fields_ = [
 ]
 MV_ALL_MATCH_INFO = _MV_ALL_MATCH_INFO_
 # CameraParams.h 387
+
+
 class _MV_MATCH_INFO_NET_DETECT_(Structure):
     pass
+
+
 _MV_MATCH_INFO_NET_DETECT_._fields_ = [
     # CameraParams.h 387
     ('nReviceDataSize', int64_t),
@@ -438,8 +491,12 @@ _MV_MATCH_INFO_NET_DETECT_._fields_ = [
 ]
 MV_MATCH_INFO_NET_DETECT = _MV_MATCH_INFO_NET_DETECT_
 # CameraParams.h 396
+
+
 class _MV_MATCH_INFO_USB_DETECT_(Structure):
     pass
+
+
 _MV_MATCH_INFO_USB_DETECT_._fields_ = [
     # CameraParams.h 396
     ('nReviceDataSize', int64_t),
@@ -449,8 +506,12 @@ _MV_MATCH_INFO_USB_DETECT_._fields_ = [
 ]
 MV_MATCH_INFO_USB_DETECT = _MV_MATCH_INFO_USB_DETECT_
 # CameraParams.h 404
+
+
 class _MV_IMAGE_BASIC_INFO_(Structure):
     pass
+
+
 _MV_IMAGE_BASIC_INFO_._fields_ = [
     # CameraParams.h 404
     ('nWidthValue', c_ushort),
@@ -472,16 +533,20 @@ _MV_IMAGE_BASIC_INFO_._fields_ = [
 MV_IMAGE_BASIC_INFO = _MV_IMAGE_BASIC_INFO_
 
 # values for enumeration 'MV_XML_InterfaceType'
-MV_XML_InterfaceType = c_int # enum
+MV_XML_InterfaceType = c_int  # enum
 
 # values for enumeration 'MV_XML_AccessMode'
-MV_XML_AccessMode = c_int # enum
+MV_XML_AccessMode = c_int  # enum
 
 # values for enumeration 'MV_XML_Visibility'
-MV_XML_Visibility = c_int # enum
+MV_XML_Visibility = c_int  # enum
 # CameraParams.h 500
+
+
 class _MV_EVENT_OUT_INFO_(Structure):
     pass
+
+
 _MV_EVENT_OUT_INFO_._fields_ = [
     # CameraParams.h 500
     ('EventName', c_char * 128),
@@ -497,8 +562,12 @@ _MV_EVENT_OUT_INFO_._fields_ = [
 ]
 MV_EVENT_OUT_INFO = _MV_EVENT_OUT_INFO_
 # CameraParams.h 520
+
+
 class _MV_CC_FILE_ACCESS_T(Structure):
     pass
+
+
 _MV_CC_FILE_ACCESS_T._fields_ = [
     # CameraParams.h 520
     ('pUserFileName', STRING),
@@ -507,8 +576,12 @@ _MV_CC_FILE_ACCESS_T._fields_ = [
 ]
 MV_CC_FILE_ACCESS = _MV_CC_FILE_ACCESS_T
 # CameraParams.h 529
+
+
 class _MV_CC_FILE_ACCESS_PROGRESS_T(Structure):
     pass
+
+
 _MV_CC_FILE_ACCESS_PROGRESS_T._fields_ = [
     # CameraParams.h 529
     ('nCompleted', int64_t),
@@ -517,8 +590,12 @@ _MV_CC_FILE_ACCESS_PROGRESS_T._fields_ = [
 ]
 MV_CC_FILE_ACCESS_PROGRESS = _MV_CC_FILE_ACCESS_PROGRESS_T
 # CameraParams.h 538
+
+
 class _MV_TRANSMISSION_TYPE_T(Structure):
     pass
+
+
 _MV_TRANSMISSION_TYPE_T._fields_ = [
     # CameraParams.h 538
     ('enTransmissionType', MV_GIGE_TRANSMISSION_TYPE),
@@ -528,8 +605,12 @@ _MV_TRANSMISSION_TYPE_T._fields_ = [
 ]
 MV_TRANSMISSION_TYPE = _MV_TRANSMISSION_TYPE_T
 # CameraParams.h 548
+
+
 class _MV_XML_NODE_FEATURE_(Structure):
     pass
+
+
 _MV_XML_NODE_FEATURE_._fields_ = [
     # CameraParams.h 548
     ('enType', MV_XML_InterfaceType),
@@ -542,8 +623,12 @@ _MV_XML_NODE_FEATURE_._fields_ = [
 ]
 MV_XML_NODE_FEATURE = _MV_XML_NODE_FEATURE_
 # CameraParams.h 561
+
+
 class _MV_XML_NODES_LIST_(Structure):
     pass
+
+
 _MV_XML_NODES_LIST_._fields_ = [
     # CameraParams.h 561
     ('nNodeNum', c_uint),
@@ -551,8 +636,12 @@ _MV_XML_NODES_LIST_._fields_ = [
 ]
 MV_XML_NODES_LIST = _MV_XML_NODES_LIST_
 # CameraParams.h 569
+
+
 class _MV_XML_FEATURE_Value_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Value_._fields_ = [
     # CameraParams.h 569
     ('enType', MV_XML_InterfaceType),
@@ -564,16 +653,24 @@ _MV_XML_FEATURE_Value_._fields_ = [
 ]
 MV_XML_FEATURE_Value = _MV_XML_FEATURE_Value_
 # CameraParams.h 579
+
+
 class _MV_XML_FEATURE_Base_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Base_._fields_ = [
     # CameraParams.h 579
     ('enAccessMode', MV_XML_AccessMode),
 ]
 MV_XML_FEATURE_Base = _MV_XML_FEATURE_Base_
 # CameraParams.h 584
+
+
 class _MV_XML_FEATURE_Integer_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Integer_._fields_ = [
     # CameraParams.h 584
     ('strName', c_char * 64),
@@ -591,8 +688,12 @@ _MV_XML_FEATURE_Integer_._fields_ = [
 ]
 MV_XML_FEATURE_Integer = _MV_XML_FEATURE_Integer_
 # CameraParams.h 603
+
+
 class _MV_XML_FEATURE_Boolean_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Boolean_._fields_ = [
     # CameraParams.h 603
     ('strName', c_char * 64),
@@ -607,8 +708,12 @@ _MV_XML_FEATURE_Boolean_._fields_ = [
 ]
 MV_XML_FEATURE_Boolean = _MV_XML_FEATURE_Boolean_
 # CameraParams.h 618
+
+
 class _MV_XML_FEATURE_Command_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Command_._fields_ = [
     # CameraParams.h 618
     ('strName', c_char * 64),
@@ -622,8 +727,12 @@ _MV_XML_FEATURE_Command_._fields_ = [
 ]
 MV_XML_FEATURE_Command = _MV_XML_FEATURE_Command_
 # CameraParams.h 632
+
+
 class _MV_XML_FEATURE_Float_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Float_._fields_ = [
     # CameraParams.h 632
     ('strName', c_char * 64),
@@ -641,8 +750,12 @@ _MV_XML_FEATURE_Float_._fields_ = [
 ]
 MV_XML_FEATURE_Float = _MV_XML_FEATURE_Float_
 # CameraParams.h 650
+
+
 class _MV_XML_FEATURE_String_(Structure):
     pass
+
+
 _MV_XML_FEATURE_String_._fields_ = [
     # CameraParams.h 650
     ('strName', c_char * 64),
@@ -657,8 +770,12 @@ _MV_XML_FEATURE_String_._fields_ = [
 ]
 MV_XML_FEATURE_String = _MV_XML_FEATURE_String_
 # CameraParams.h 665
+
+
 class _MV_XML_FEATURE_Register_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Register_._fields_ = [
     # CameraParams.h 665
     ('strName', c_char * 64),
@@ -673,8 +790,12 @@ _MV_XML_FEATURE_Register_._fields_ = [
 ]
 MV_XML_FEATURE_Register = _MV_XML_FEATURE_Register_
 # CameraParams.h 680
+
+
 class _MV_XML_FEATURE_Category_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Category_._fields_ = [
     # CameraParams.h 680
     ('strDescription', c_char * 512),
@@ -686,8 +807,12 @@ _MV_XML_FEATURE_Category_._fields_ = [
 ]
 MV_XML_FEATURE_Category = _MV_XML_FEATURE_Category_
 # CameraParams.h 692
+
+
 class _MV_XML_FEATURE_EnumEntry_(Structure):
     pass
+
+
 _MV_XML_FEATURE_EnumEntry_._fields_ = [
     # CameraParams.h 692
     ('strName', c_char * 64),
@@ -705,8 +830,12 @@ _MV_XML_FEATURE_EnumEntry_._fields_ = [
 ]
 MV_XML_FEATURE_EnumEntry = _MV_XML_FEATURE_EnumEntry_
 # CameraParams.h 711
+
+
 class _MV_XML_FEATURE_Enumeration_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Enumeration_._fields_ = [
     # CameraParams.h 711
     ('enVisivility', MV_XML_Visibility),
@@ -724,8 +853,12 @@ _MV_XML_FEATURE_Enumeration_._fields_ = [
 ]
 MV_XML_FEATURE_Enumeration = _MV_XML_FEATURE_Enumeration_
 # CameraParams.h 730
+
+
 class _MV_XML_FEATURE_Port_(Structure):
     pass
+
+
 _MV_XML_FEATURE_Port_._fields_ = [
     # CameraParams.h 730
     ('enVisivility', MV_XML_Visibility),
@@ -739,11 +872,17 @@ _MV_XML_FEATURE_Port_._fields_ = [
 ]
 MV_XML_FEATURE_Port = _MV_XML_FEATURE_Port_
 # CameraParams.h 746
+
+
 class _MV_XML_CAMERA_FEATURE_(Structure):
     pass
 # CameraParams.h 749
+
+
 class N23_MV_XML_CAMERA_FEATURE_3DOT_1E(Union):
     pass
+
+
 N23_MV_XML_CAMERA_FEATURE_3DOT_1E._fields_ = [
     # CameraParams.h 749
     ('stIntegerFeature', MV_XML_FEATURE_Integer),
@@ -758,8 +897,12 @@ _MV_XML_CAMERA_FEATURE_._fields_ = [
 ]
 MV_XML_CAMERA_FEATURE = _MV_XML_CAMERA_FEATURE_
 # CameraParams.h 760
+
+
 class _MVCC_ENUMVALUE_T(Structure):
     pass
+
+
 _MVCC_ENUMVALUE_T._fields_ = [
     # CameraParams.h 760
     ('nCurValue', c_uint),
@@ -769,8 +912,12 @@ _MVCC_ENUMVALUE_T._fields_ = [
 ]
 MVCC_ENUMVALUE = _MVCC_ENUMVALUE_T
 # CameraParams.h 769
+
+
 class _MVCC_INTVALUE_T(Structure):
     pass
+
+
 _MVCC_INTVALUE_T._fields_ = [
     # CameraParams.h 769
     ('nCurValue', c_uint),
@@ -781,8 +928,12 @@ _MVCC_INTVALUE_T._fields_ = [
 ]
 MVCC_INTVALUE = _MVCC_INTVALUE_T
 # CameraParams.h 779
+
+
 class _MVCC_INTVALUE_EX_T(Structure):
     pass
+
+
 _MVCC_INTVALUE_EX_T._fields_ = [
     # CameraParams.h 779
     ('nCurValue', int64_t),
@@ -793,8 +944,12 @@ _MVCC_INTVALUE_EX_T._fields_ = [
 ]
 MVCC_INTVALUE_EX = _MVCC_INTVALUE_EX_T
 # CameraParams.h 789
+
+
 class _MVCC_FLOATVALUE_T(Structure):
     pass
+
+
 _MVCC_FLOATVALUE_T._fields_ = [
     # CameraParams.h 789
     ('fCurValue', c_float),
@@ -804,8 +959,12 @@ _MVCC_FLOATVALUE_T._fields_ = [
 ]
 MVCC_FLOATVALUE = _MVCC_FLOATVALUE_T
 # CameraParams.h 798
+
+
 class _MVCC_STRINGVALUE_T(Structure):
     pass
+
+
 _MVCC_STRINGVALUE_T._fields_ = [
     # CameraParams.h 798
     ('chCurValue', c_char * 256),

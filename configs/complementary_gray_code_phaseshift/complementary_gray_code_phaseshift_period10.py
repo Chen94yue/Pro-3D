@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-11 17:48:08
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-24 14:55:00
+LastEditTime: 2022-10-24 15:29:31
 FilePath: /BasePipeline/configs/complementary_gray_code_phaseshift/complementary_gray_code_phaseshift_period10.py
 Description: 
 
@@ -27,7 +27,7 @@ method = dict(
         ps_img_num=3,
         gc_img_num=8,
         bg_thr=4, 
-        wavelength=10, 
+        wavelength=10,
         downsample_ratio=4,
         col_only=False, 
         cuda=False

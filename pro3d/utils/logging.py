@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-17 10:43:40
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-17 10:58:21
+LastEditTime: 2022-10-24 15:41:45
 FilePath: /BasePipeline/pro3d/utils/logging.py
 Description: 
 

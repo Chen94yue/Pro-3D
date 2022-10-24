@@ -676,7 +676,7 @@ class DictAction(Action):
             inside these brackets are ignored.
             """
             assert (string.count('(') == string.count(')')) and (
-                    string.count('[') == string.count(']')), \
+                string.count('[') == string.count(']')), \
                 f'Imbalanced brackets exist in {string}'
             end = len(string)
             for idx, char in enumerate(string):

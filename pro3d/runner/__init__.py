@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-20 18:04:54
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-20 18:06:19
+LastEditTime: 2022-10-24 15:41:06
 FilePath: /BasePipeline/pro3d/runner/__init__.py
 Description: 
 

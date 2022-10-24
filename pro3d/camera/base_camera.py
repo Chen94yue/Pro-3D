@@ -2,12 +2,13 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-19 14:13:48
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-19 14:45:23
+LastEditTime: 2022-10-24 15:38:30
 FilePath: /BasePipeline/pro3d/camera/base_camera.py
 Description: 
 
 Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved. 
 '''
+
 
 class BaseCamera:
 
@@ -22,11 +23,9 @@ class BaseCamera:
 
     def get_image(self):
         pass
-    
+
     def stop(self):
         pass
 
     def save_images(self):
         pass
-
-

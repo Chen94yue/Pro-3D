@@ -2,7 +2,7 @@
 Author: chenyue93 chenyue21@jd.com
 Date: 2022-10-20 18:03:37
 LastEditors: chenyue93 chenyue21@jd.com
-LastEditTime: 2022-10-24 14:50:28
+LastEditTime: 2022-10-24 15:41:34
 FilePath: /BasePipeline/pro3d/runner/single_camera_runner.py
 Description: 
 
@@ -47,9 +47,9 @@ class SingleCameraRunner(BaseRunner):
         self.map = self.map.numpy()
         self.points = self.rebuilder.rebuild(self.map)
         self.call_hook('post_processing')
-        depth = self.points[:,:,-1]
+        depth = self.points[:, :, -1]
         return self.points, depth, color
-        
+
     def register_shot_hooks(
         self,
         camera_reset_config: Union[Dict, Hook, None] = None,
@@ -69,7 +69,7 @@ class SingleCameraRunner(BaseRunner):
 
     def register_projector_reset_hook(self, projector_reset_config: Union[Dict, Hook, None]):
         if projector_reset_config is None:
-            return 
+            return
         self.logger.info("Not implemented.")
 
     def register_pre_process_hook(self, pre_process_config: Union[Dict, Hook, None]):
@@ -89,4 +89,3 @@ class SingleCameraRunner(BaseRunner):
         else:
             hook = post_process_config
         self.register_hook(hook, property='NORMAL')
-
