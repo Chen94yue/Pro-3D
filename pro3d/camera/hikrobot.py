@@ -24,9 +24,8 @@ class HikrobotCamera(BaseCamera):
         super(HikrobotCamera, self).__init__()
         self.logger = get_logger(
             name='hikrobot_camera', log_file=log_file, log_level=log_level)
-        self.cam_serial_dict = {}
-        for camera_serial in camera_serial:
-            self.cam_serial_dict[camera_serial] = []
+        self.cam_serial = camera_serial
+
         deviceList = MV_CC_DEVICE_INFO_LIST()
         tlayerType = MV_USB_DEVICE
         MvCamera.set_dill_path(dill_path)
@@ -37,7 +36,7 @@ class HikrobotCamera(BaseCamera):
         if deviceList.nDeviceNum == 0:
             self.logger.info("Find no device!")
             sys.exit()
-        # camera_index = -1
+        camera_index = -1
         for i in range(0, deviceList.nDeviceNum):
             mvcc_dev_info = cast(deviceList.pDeviceInfo[i], POINTER(
                 MV_CC_DEVICE_INFO)).contents
@@ -56,12 +55,11 @@ class HikrobotCamera(BaseCamera):
                         break
                     strSerialNumber = strSerialNumber + chr(per)
                 self.logger.info("User serial number: %s" % strSerialNumber)
-                if strSerialNumber in camera_serial:
-                    self.cam_serial_dict[strSerialNumber] = i
-        self.cam = {}
-        for key, value in self.cam_serial_dict:
-            self.cam[key] = (MvCamera(), cast(
-                deviceList.pDeviceInfo[value], POINTER(MV_CC_DEVICE_INFO)).contents)
+                if strSerialNumber == camera_serial:
+                    camera_index = i
+        
+        self.cam = MvCamera()
+        self.stDeviceList = cast(deviceList.pDeviceInfo[camera_index], POINTER(MV_CC_DEVICE_INFO)).contents
             # self.cam[key][0].set_dill_path(dill_path)
 
         # self.cam = MvCamera()
@@ -73,121 +71,106 @@ class HikrobotCamera(BaseCamera):
         self.set_camera()
 
     def set_camera(self):
-        for i in self.cam.keys():
-            ret = self.cam[i][0].MV_CC_CreateHandle(self.cam[i][1])
-            if ret != 0:
-                self.logger.info("Create handle failed.")
-                sys.exit()
-            self.cam[i] = self.cam[i][0]
 
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_OpenDevice(MV_ACCESS_Exclusive, 0)
-            if ret != 0:
-                self.logger.info("Open device failed.")
-                sys.exit()
+        ret = self.cam.MV_CC_CreateHandle(self.stDeviceList)
+        if ret != 0:
+            self.logger.info("Create handle failed.")
+            sys.exit()
+        
+        ret = self.cam.MV_CC_OpenDevice(MV_ACCESS_Exclusive, 0)
+        if ret != 0:
+            self.logger.info("Open device failed.")
+            sys.exit()
+        
+        if self.stDeviceList.nTLayerType == MV_GIGE_DEVICE:
+            nPacketSize = self.cam.MV_CC_GetOptimalPacketSize()
+            if int(nPacketSize) > 0:
+                ret = self.cam.MV_CC_SetIntValue("GevSCPSPacketSize",nPacketSize)
+                if ret != 0:
+                    self.logger.info("Set GevSCPSPacketSize failed.")
+                    sys.exit()
+            else:
+                self.logger.info("Warning: Get Packet Size fail! ret[0x%x]" % nPacketSize)
 
         stBool = c_bool(False)
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_GetBoolValue(
-                "AcquisitionFrameRateEnable", stBool)
-            if ret != 0:
-                self.logger.info("Get AcquisitionFrameRateEnable failed.")
-                sys.exit()
+        ret = self.cam.MV_CC_GetBoolValue("AcquisitionFrameRateEnable", stBool)
+        if ret != 0:
+            self.logger.info("Get AcquisitionFrameRateEnable failed.")
+            sys.exit()
 
         # ch:设置触发模式为off | en:Set trigger mode as off
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetEnumValue(
-                "TriggerMode", MV_TRIGGER_MODE_OFF)
-            if ret != 0:
-                self.logger.info("Set trigger mode failed.")
-                sys.exit()
+        ret = self.cam.MV_CC_SetEnumValue("TriggerMode", MV_TRIGGER_MODE_OFF)
+        if ret != 0:
+            self.logger.info("Set trigger mode failed.")
+            sys.exit()
 
         stParam = MVCC_INTVALUE()
         memset(byref(stParam), 0, sizeof(MVCC_INTVALUE))
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_GetIntValue("PayloadSize", stParam)
-            if ret != 0:
-                self.logger.info("Set PayloadSize failed.")
-                sys.exit()
-
+        ret = self.cam.MV_CC_GetIntValue("PayloadSize", stParam)
+        if ret != 0:
+            self.logger.info("Set PayloadSize failed.")
+            sys.exit()
         self.payload_size = stParam.nCurValue
-        self.data_buf_dict = {}
-        self.stFrameInfo_dict = {}
-        for i in self.cam.keys():
-            self.data_buf_dict[i] = byref((c_ubyte * self.payload_size)())
-            self.stFrameInfo_dict[i] = MV_FRAME_OUT_INFO_EX()
-            memset(byref(self.stFrameInfo_dict[i]), 0, sizeof(
-                self.stFrameInfo_dict[i]))
+        self.data_buf = (c_ubyte * self.payload_size)()
 
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetEnumValue(
-                "ExposureMode", MV_EXPOSURE_MODE_TIMED)
-            if ret != 0:
-                self.logger.info("Set exposure mode failed.")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetEnumValue(
-                "ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF)
-            if ret != 0:
-                self.logger.info("Set exposure auto failed.")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetFloatValue(
-                "ExposureTime", float(self.exposureTime))  # us
-            if ret != 0:
-                self.logger.info("Set exposure time failed.")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetFloatValue("Gain", float(self.gain))
-            if ret != 0:
-                self.logger.info("Set gain value failed.")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetBoolValue("GammaEnable", True)
-            if ret != 0:
-                self.logger.info("Set GammaEnable fail!")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetEnumValue("GammaSelector", 1)
-            if ret != 0:
-                self.logger.info("Set GammaSelector fail!")
-                sys.exit()
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_SetFloatValue("Gamma", self.gamma)
-            if ret != 0:
-                self.logger.info("Set Gamma failed!")
-                sys.exit()
-    # ch:开始取流 | en:Start grab image
+        self.data_buf_ref = byref(self.data_buf)
+        self.stFrameInfo = MV_FRAME_OUT_INFO_EX()
+        memset(byref(self.stFrameInfo), 0, sizeof(self.stFrameInfo))
+
+        ret = self.cam.MV_CC_SetEnumValue("ExposureMode", MV_EXPOSURE_MODE_TIMED)
+        if ret != 0:
+            self.logger.info("Set exposure mode failed.")
+            sys.exit()
+
+        ret = self.cam.MV_CC_SetEnumValue("ExposureAuto", MV_EXPOSURE_AUTO_MODE_OFF)
+        if ret != 0:
+            self.logger.info("Set exposure auto failed.")
+            sys.exit()
+
+        ret = self.cam.MV_CC_SetFloatValue("ExposureTime",float(self.exposureTime)) # us
+        if ret != 0:
+            self.logger.info("Set exposure time failed.")
+            sys.exit()
+
+        ret = self.cam.MV_CC_SetFloatValue("Gain", float(self.gain))
+        if ret != 0:
+            self.logger.info("Set gain value failed.")
+            sys.exit()
+
+        ret = self.cam.MV_CC_SetBoolValue("GammaEnable", True)
+        if ret != 0:
+            self.logger.info("Set GammaEnable fail!")
+	    
+        ret = self.cam.MV_CC_SetEnumValue("GammaSelector", 1)
+        if ret != 0:
+            self.logger.info("Set GammaSelector fail!")
+
+        ret = self.cam.MV_CC_SetFloatValue("Gamma", self.gamma)
+        if ret != 0:
+            self.logger.info("Set Gamma failed!")
 
     def start(self):
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_StartGrabbing()
-            if ret != 0:
-                self.logger.info("Start Camera failed!")
-                sys.exit()
+        ret = self.cam.MV_CC_StartGrabbing()
+        if ret != 0:
+            self.logger.info("Start Camera failed!")
+            sys.exit()
 
     def get_image(self):
-        self.images = {}
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_GetOneFrameTimeout(
-                self.data_buf_dict[i], self.payload_size, self.stFrameInfo_dict[i], 1000)
-            if ret == 0:
-                frame_data = np.ctypeslib.as_array(self.data_buf_dict[i])
-                if self.rgb:
-                    self.images[i] = frame_data.reshape(
-                        (self.stFrameInfo_dict[i].nHeight, self.stFrameInfo_dict[i].nWidth, 3))
-                    self.images[i] = cv2.cvtColor(
-                        self.images[i], cv2.COLOR_RGB2BGR)
-                else:
-                    self.images[i] = frame_data.reshape(
-                        (self.stFrameInfo_dict[i].nHeight, self.stFrameInfo_dict[i].nWidth))
+        ret = self.cam.MV_CC_GetOneFrameTimeout(self.data_buf_ref, self.payload_size, self.stFrameInfo, 1000)
+        if ret == 0:
+            frame_data = np.ctypeslib.as_array(self.data_buf)
+            if self.rgb:
+                self.image = frame_data.reshape((self.stFrameInfo.nHeight, self.stFrameInfo.nWidth, 3))
+                self.image = cv2.cvtColor(self.image, cv2.COLOR_RGB2GRAY)
             else:
-                self.logger.info("Get image failed.")
-                sys.exit()
+                self.image = frame_data.reshape((self.stFrameInfo.nHeight, self.stFrameInfo.nWidth))
+        else:
+            self.logger.info("Get image failed.")
+            self.image = None
+            self.status = False
 
     def stop(self):
-        for i in self.cam.keys():
-            ret = self.cam[i].MV_CC_StopGrabbing()
-            if ret != 0:
-                self.logger.info("Stop Camera failed!")
-                sys.exit()
+        ret = self.cam.MV_CC_StopGrabbing()
+        if ret != 0:
+            self.logger.info("Stop Camera failed!")
+            sys.exit()

@@ -11,9 +11,9 @@ Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved.
 
 camera = dict(
     type='HikrobotCamera',
-    dill_path="/home/adlink/Projects/Camera3DPipeline/third/MvImport",
-    camera_serial=['K18111107'],
-    camera_device_id=['2bdf:0001'],
+    dill_path="C:\Program Files (x86)\Common Files\MVS\Runtime\Win64_x64\MvCameraControl.dll",
+    camera_serial='J79613572',
+    camera_device_id='2bdf:0001',
     # patterns_number = 22,   # 如果是列表，将在拍摄过程中进行参数的切换
     exposure_time=35000,
     gain=1,

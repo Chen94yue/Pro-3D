@@ -9,8 +9,8 @@ Description:
 Copyright (c) 2022 by chenyue93 chenyue21@jd.com, All Rights Reserved. 
 '''
 # Copyright (c) OpenMMLab. All rights reserved.
-from utils.registry import Registry
-from utils.misc import is_method_overridden
+from pro3d.utils.registry import Registry
+from pro3d.utils.misc import is_method_overridden
 
 HOOKS = Registry('hook')
 

@@ -9,6 +9,7 @@ from math import floor
 from contextlib import contextmanager
 import sys
 from .builder import PROJECTOR
+import platform
 
 
 def conv_len(a, l):
@@ -54,14 +55,15 @@ def connect_usb():
     :yields: usb device
     """
     device = usb.core.find(idVendor=0x0451, idProduct=0x6401)
-    for cfg in device:
-        for intf in cfg:
-            if device.is_kernel_driver_active(intf.bInterfaceNumber):
-                try:
-                    device.detach_kernel_driver(intf.bInterfaceNumber)
-                except usb.core.USBError as e:
-                    sys.exit("Could not detatch kernel driver from interface({0}): {1}".format(
-                        intf.bInterfaceNumber, str(e)))
+    if platform.system().lower() == 'linux':
+        for cfg in device:
+            for intf in cfg:
+                if device.is_kernel_driver_active(intf.bInterfaceNumber):
+                    try:
+                        device.detach_kernel_driver(intf.bInterfaceNumber)
+                    except usb.core.USBError as e:
+                        sys.exit("Could not detatch kernel driver from interface({0}): {1}".format(
+                            intf.bInterfaceNumber, str(e)))
     device.set_configuration()
     lcr = dlpc350(device)
     yield lcr

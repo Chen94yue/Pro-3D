@@ -88,9 +88,9 @@ class ComplementaryGraycode(nn.Module):
         images = images[self.num_of_ps_pattern_imgs:]
         col_batch_val = images.index_select(0, self.col_batch_index)
         gray_col = torch.gt(col_batch_val, threshold)
-        for i in range(1, self.numOfColImgs):
+        for i in range(1, self.num_of_gc_imgs):
             gray_col[i] = gray_col[i] ^ gray_col[i-1]
-        gray_col_k1 = gray_col[:self.numOfColImgs-1]
+        gray_col_k1 = gray_col[:self.num_of_gc_imgs-1]
         gray_col_k2 = gray_col
         dec_col_k1 = torch.sum(gray_col_k1.int() *
                                self.col_batch_ratio[1:], dim=0)
@@ -107,9 +107,9 @@ class ComplementaryGraycode(nn.Module):
         if not self.col_only:
             row_batch_val = images.index_select(0, self.row_batch_index)
             gray_row = torch.gt(row_batch_val, threshold)
-            for i in range(1, self.numOfRowImgs):
+            for i in range(1, self.num_of_gc_imgs):
                 gray_row[i] = gray_row[i] ^ gray_row[i-1]
-            gray_row_k1 = gray_row[:self.numOfColImgs-1]
+            gray_row_k1 = gray_row[:self.num_of_gc_imgs-1]
             gray_row_k2 = gray_row
             dec_row_k1 = torch.sum(gray_row_k1.int() *
                                    self.row_batch_ratio[1:], dim=0)

@@ -79,7 +79,7 @@ class SingleCameraRunner(BaseRunner):
             hook = build_from_cfg(pre_process_config, HOOKS)
         else:
             hook = pre_process_config
-        self.register_hook(hook, property='NORMAL')
+        self.register_hook(hook, priority='NORMAL')
 
     def register_post_process_hook(self, post_process_config: Union[Dict, Hook, None]):
         if post_process_config is None:
@@ -88,4 +88,4 @@ class SingleCameraRunner(BaseRunner):
             hook = build_from_cfg(post_process_config, HOOKS)
         else:
             hook = post_process_config
-        self.register_hook(hook, property='NORMAL')
+        self.register_hook(hook, priority='NORMAL')

@@ -121,7 +121,7 @@ class GraycodeCrossRebuilder(BaseRebuilder):
         img_shape, rotation, translation, cam_int, cam_dist, proj_int, proj_dist = \
             load_calibrate_param(calibrate_param_file)
         self.rig = StereoRig(
-            img_shape,
+            img_shape[::-1],
             proj_shape,
             cam_int, proj_int, cam_dist, proj_dist, rotation, translation)
         self.Rectify1, self.Rectify2, commonRotation = _lowLevelRectify(
@@ -138,7 +138,6 @@ class GraycodeCrossRebuilder(BaseRebuilder):
                 self.index[y, x, 1] = y
         self.ratio = downsample_ratio
         self.index = self.index[::self.ratio, ::self.ratio, :]
-        # self.index = self.index
         self.points = np.zeros((heightC, widthC, 3))
 
     def rebuild(self, pp):

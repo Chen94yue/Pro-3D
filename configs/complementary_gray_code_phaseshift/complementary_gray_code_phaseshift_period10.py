@@ -34,17 +34,17 @@ method = dict(
     ),
     rebuilder = dict(
         type = 'GraycodeCrossRebuilder',
-        calibrate_param_file = "/Users/chenyue/Projects/BasePipeline/calibrate_files/calibration_result_ps_3m.xml", 
+        calibrate_param_file = "D:\Linux\code\Pro-3D\calibrate_files\calibration_result_ps_3m.xml", 
         proj_shape = (1140, 912), 
         downsample_ratio = 4,
     ),
-    pre_porcess = True,
+    pre_process = True,
     pre_process_cfg = dict(
         type = 'ImageCrop',
         crop_x = 0, 
         crop_y = 230,
-        crop_w = 2400,
-        crop_h = 1730,
+        crop_w = 2365, #1735. 2365
+        crop_h = 1735,
         downsample_ratio = 4,
     ),
     post_process = True,

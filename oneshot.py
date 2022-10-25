@@ -16,6 +16,7 @@ from pro3d.camera import build_camera
 from pro3d.projector import build_projector
 from pro3d.rebuilder import build_rebuilder
 from pro3d.runner import build_runner
+import cv2
 
 
 def parse_args():
@@ -59,6 +60,7 @@ def main():
         print(points.shape)
         print(depth.shape)
         print(color.shape)
+        cv2.imwrite('color.png', color)
         input("Next?")
 
 
