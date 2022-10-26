@@ -103,6 +103,7 @@ class ComplementaryGraycode(nn.Module):
         ps_col += 2*torch.pi*dec_col_k1*mask2
         ps_col += (2*torch.pi*dec_col_k2-2*torch.pi)*mask3
         ps_col = (ps_col*mask*self.wavelength/2/torch.pi).unsqueeze(-1)
+        # ps_col = dec_col_k2
 
         if not self.col_only:
             row_batch_val = images.index_select(0, self.row_batch_index)
@@ -123,9 +124,13 @@ class ComplementaryGraycode(nn.Module):
             ps_row += 2*torch.pi*dec_row_k1*mask2
             ps_row += (2*torch.pi*dec_row_k2-2*torch.pi)*mask3
             ps_row = (ps_row*mask*self.wavelength/2/torch.pi).unsqueeze(-1)
+            # ps_row = dec_row_k2
+            # print(str(dec_row_k1[:,1].numpy().tolist()))
+            # print(str(dec_row_k2[:,1].numpy().tolist()))
 
         if self.col_only:
             map = ps_col
         else:
             map = torch.cat((ps_col, ps_row), dim=2)
+            # map = torch.cat((ps_col.unsqueeze(-1), ps_row.unsqueeze(-1)), dim=2)
         return map

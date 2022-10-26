@@ -6,6 +6,7 @@ __pycache__/
 # C extensions
 *.so
 
+
 # Distribution / packaging
 .Python
 build/
@@ -131,3 +132,8 @@ dmypy.json
 # MacOS
 .DS_Store 
 */.DS_Store 
+
+# images
+*.png
+*.jpg
+*.bmp
