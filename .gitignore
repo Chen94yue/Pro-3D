@@ -134,6 +134,6 @@ dmypy.json
 */.DS_Store 
 
 # images
-*.png
+
 *.jpg
 *.bmp
